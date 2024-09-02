@@ -31,6 +31,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
             height: MediaQuery.sizeOf(context).height * 0.45,
             autoPlay: true,
             enlargeCenterPage: true,
+            viewportFraction: 1
           ),
           items: cubit.popularMoviesModel?.results?.map((movie) {
             return Builder(
@@ -104,12 +105,12 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                                   color: Colors.transparent,
                                   image: DecorationImage(
                                     image: AssetImage(
-                                      cubit.isWatchList ? AppImages.wishList : AppImages.bookmark,
+                                    AppImages.bookmark,
                                     ),
                                   ),
                                 ),
                                 child: Icon(
-                                  cubit.isWatchList ? Icons.check : Icons.add,
+                                   Icons.add,
                                   color: Colors.white,
                                 ),
                               ),

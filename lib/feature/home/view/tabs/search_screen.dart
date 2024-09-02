@@ -16,7 +16,6 @@ class SearchScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
-
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -154,9 +153,7 @@ class SearchScreen extends StatelessWidget {
                                       ),
                                     ),
                                     child: Icon(
-                                      cubit.isWatchList
-                                          ? Icons.check
-                                          : Icons.add,
+                                      Icons.add,
                                       color: Colors.white,
                                     ),
                                   ),

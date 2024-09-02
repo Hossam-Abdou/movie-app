@@ -26,7 +26,6 @@ class HomeCubit extends Cubit<HomeState> {
   WatchListModel? watchListModel;
   SearchModel? searchModel;
 
-bool isWatchList = false;
 
 
   getPopularMovies() async {
