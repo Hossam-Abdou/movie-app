@@ -13,8 +13,8 @@ class CustomWishListContainer extends StatelessWidget {
   const CustomWishListContainer({super.key,
     this.firstImage,
     this.secondImage,
-     this.imageHeight=0.25,
-     this.imageWidth=0.37,
+    this.imageHeight=0.23,
+    this.imageWidth=0.34,
     this.icon=Icons.add,
     required this.onTap
 
@@ -24,37 +24,42 @@ class CustomWishListContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-            alignment: Alignment.topLeft,
-            width: MediaQuery.of(context).size.width * imageWidth,
-            height: MediaQuery.of(context).size.height * imageHeight,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.r),
-              image: DecorationImage(
-                image: NetworkImage(
-                  '${Constants.imageBaseUrl}$firstImage',
+        InkWell(
+          onTap: () {
+
+          },
+          child: Container(
+              alignment: Alignment.topLeft,
+              width: MediaQuery.of(context).size.width * imageWidth,
+              height: MediaQuery.of(context).size.height * imageHeight,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                image: DecorationImage(
+                  image: NetworkImage(
+                    '${Constants.imageBaseUrl}$firstImage',
+                  ),
+                  fit: BoxFit.fill,
                 ),
-                fit: BoxFit.fill,
               ),
-            ),
-            child: InkWell(
-              onTap: onTap,
-              child: Container(
-                height: MediaQuery.sizeOf(context).height*0.05,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  image: DecorationImage(
-                    image: AssetImage(
-                      '$secondImage',
+              child: InkWell(
+                onTap: onTap,
+                child: Container(
+                  height: MediaQuery.sizeOf(context).height*0.05,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    image: DecorationImage(
+                      image: AssetImage(
+                        '$secondImage',
+                      ),
                     ),
                   ),
+                  child:  Icon(
+                    icon,
+                    color: Colors.white,
+                  ),
                 ),
-                child:  Icon(
-                  icon,
-                  color: Colors.white,
-                ),
-              ),
-            )),
+              )),
+        ),
       ],
     );
   }

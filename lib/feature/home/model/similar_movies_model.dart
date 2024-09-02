@@ -1,11 +1,11 @@
-class SearchModel {
-  SearchModel({
+class SimilarMoviesModel {
+  SimilarMoviesModel({
       this.page, 
       this.results, 
       this.totalPages, 
       this.totalResults,});
 
-  SearchModel.fromJson(dynamic json) {
+  SimilarMoviesModel.fromJson(dynamic json) {
     page = json['page'];
     if (json['results'] != null) {
       results = [];
@@ -21,16 +21,6 @@ class SearchModel {
   int? totalPages;
   int? totalResults;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['page'] = page;
-    if (results != null) {
-      map['results'] = results?.map((v) => v.toJson()).toList();
-    }
-    map['total_pages'] = totalPages;
-    map['total_results'] = totalResults;
-    return map;
-  }
 
 }
 
@@ -82,23 +72,5 @@ class Results {
   double? voteAverage;
   int? voteCount;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['adult'] = adult;
-    map['backdrop_path'] = backdropPath;
-    map['genre_ids'] = genreIds;
-    map['id'] = id;
-    map['original_language'] = originalLanguage;
-    map['original_title'] = originalTitle;
-    map['overview'] = overview;
-    map['popularity'] = popularity;
-    map['poster_path'] = posterPath;
-    map['release_date'] = releaseDate;
-    map['title'] = title;
-    map['video'] = video;
-    map['vote_average'] = voteAverage;
-    map['vote_count'] = voteCount;
-    return map;
-  }
 
 }

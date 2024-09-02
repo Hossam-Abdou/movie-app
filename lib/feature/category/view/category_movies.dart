@@ -67,8 +67,7 @@ class CategoryMovies extends StatelessWidget {
                               child: Center(
                                 child: CustomWishListContainer(
                                   firstImage:
-                                      '${cubit.categoryMovieModel?.results?[index].posterPath}' ??
-                                          '',
+                                      '${cubit.categoryMovieModel?.results?[index].posterPath}',
                                   secondImage: AppImages.bookmark,
                                   onTap: () {},
                                 ),

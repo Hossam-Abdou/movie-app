@@ -1,13 +1,11 @@
-class NewReleaseModel {
-  NewReleaseModel({
-      this.dates, 
+class PopularMoviesModel {
+  PopularMoviesModel({
       this.page, 
       this.results, 
       this.totalPages, 
       this.totalResults,});
 
-  NewReleaseModel.fromJson(dynamic json) {
-    dates = json['dates'] != null ? Dates.fromJson(json['dates']) : null;
+  PopularMoviesModel.fromJson(dynamic json) {
     page = json['page'];
     if (json['results'] != null) {
       results = [];
@@ -18,7 +16,6 @@ class NewReleaseModel {
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
   }
-  Dates? dates;
   int? page;
   List<Results>? results;
   int? totalPages;
@@ -75,44 +72,5 @@ class Results {
   double? voteAverage;
   int? voteCount;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['adult'] = adult;
-    map['backdrop_path'] = backdropPath;
-    map['genre_ids'] = genreIds;
-    map['id'] = id;
-    map['original_language'] = originalLanguage;
-    map['original_title'] = originalTitle;
-    map['overview'] = overview;
-    map['popularity'] = popularity;
-    map['poster_path'] = posterPath;
-    map['release_date'] = releaseDate;
-    map['title'] = title;
-    map['video'] = video;
-    map['vote_average'] = voteAverage;
-    map['vote_count'] = voteCount;
-    return map;
-  }
-
-}
-
-class Dates {
-  Dates({
-      this.maximum, 
-      this.minimum,});
-
-  Dates.fromJson(dynamic json) {
-    maximum = json['maximum'];
-    minimum = json['minimum'];
-  }
-  String? maximum;
-  String? minimum;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['maximum'] = maximum;
-    map['minimum'] = minimum;
-    return map;
-  }
 
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/feature/category/model/CategoryMovieModel.dart';
-import 'package:movie_app/feature/category/model/MovieGenresModel.dart';
+import 'package:movie_app/feature/category/model/category_movie_model.dart';
+import 'package:movie_app/feature/category/model/movie_genre_model.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import 'package:movie_app/utils/end_points/end_points.dart';
 import 'package:http/http.dart' as http;

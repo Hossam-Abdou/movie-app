@@ -102,44 +102,6 @@ class MoviesDetailsModel {
   double? voteAverage;
   int? voteCount;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['adult'] = adult;
-    map['backdrop_path'] = backdropPath;
-    map['belongs_to_collection'] = belongsToCollection;
-    map['budget'] = budget;
-    if (genres != null) {
-      map['genres'] = genres?.map((v) => v.toJson()).toList();
-    }
-    map['homepage'] = homepage;
-    map['id'] = id;
-    map['imdb_id'] = imdbId;
-    map['origin_country'] = originCountry;
-    map['original_language'] = originalLanguage;
-    map['original_title'] = originalTitle;
-    map['overview'] = overview;
-    map['popularity'] = popularity;
-    map['poster_path'] = posterPath;
-    if (productionCompanies != null) {
-      map['production_companies'] = productionCompanies?.map((v) => v.toJson()).toList();
-    }
-    if (productionCountries != null) {
-      map['production_countries'] = productionCountries?.map((v) => v.toJson()).toList();
-    }
-    map['release_date'] = releaseDate;
-    map['revenue'] = revenue;
-    map['runtime'] = runtime;
-    if (spokenLanguages != null) {
-      map['spoken_languages'] = spokenLanguages?.map((v) => v.toJson()).toList();
-    }
-    map['status'] = status;
-    map['tagline'] = tagline;
-    map['title'] = title;
-    map['video'] = video;
-    map['vote_average'] = voteAverage;
-    map['vote_count'] = voteCount;
-    return map;
-  }
 
 }
 
@@ -158,13 +120,6 @@ class SpokenLanguages {
   String? iso6391;
   String? name;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['english_name'] = englishName;
-    map['iso_639_1'] = iso6391;
-    map['name'] = name;
-    return map;
-  }
 
 }
 
@@ -180,12 +135,6 @@ class ProductionCountries {
   String? iso31661;
   String? name;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['iso_3166_1'] = iso31661;
-    map['name'] = name;
-    return map;
-  }
 
 }
 
@@ -207,14 +156,6 @@ class ProductionCompanies {
   String? name;
   String? originCountry;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['logo_path'] = logoPath;
-    map['name'] = name;
-    map['origin_country'] = originCountry;
-    return map;
-  }
 
 }
 
@@ -230,11 +171,5 @@ class Genres {
   int? id;
   String? name;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    return map;
-  }
 
 }

@@ -26,7 +26,7 @@ class SearchScreen extends StatelessWidget {
                     TextFormField(
                       style: GoogleFonts.inter(
                         color: Colors.white,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
                       cursorColor: Colors.white.withOpacity(0.67),
@@ -34,6 +34,7 @@ class SearchScreen extends StatelessWidget {
                         cubit.searchMovies(query);
                        if( query =='')
                        {
+                         // if the search field is empty show the empty image
                          cubit.searchModel?.results?.isEmpty ?? true;
                        }
                       },
@@ -75,10 +76,11 @@ class SearchScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 16.h,),
                     if (state is SearchMovieLoadingState)
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Center(
+                       Padding(
+                        padding: EdgeInsets.all(20.r),
+                        child:const Center(
                           child: CircularProgressIndicator(
                             color: AppColors.yellowColor,
                           ),
@@ -98,7 +100,7 @@ class SearchScreen extends StatelessWidget {
                             'No movies Found',
                             style: GoogleFonts.inter(
                               color: Colors.white.withOpacity(0.67),
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -152,7 +154,7 @@ class SearchScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.add,
                                       color: Colors.white,
                                     ),
@@ -172,7 +174,7 @@ class SearchScreen extends StatelessWidget {
                                         '',
                                     style: GoogleFonts.inter(
                                       color: Colors.white,
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
                                     maxLines: 2,

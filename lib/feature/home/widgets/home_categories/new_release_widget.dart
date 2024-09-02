@@ -13,69 +13,73 @@ class NewReleaseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
-        listener: (context, state) {
-          if (state is NewReleaseLoadingState) {
-
-const Center(child:
-  CircularProgressIndicator(),);
+      listener: (context, state) {
+        if (state is NewReleaseLoadingState) {
+          const Center(
+            child: CircularProgressIndicator(),
+          );
         }
-          },
-        builder: (context, state) {
-          var cubit = HomeCubit.get(context);
+      },
+      builder: (context, state) {
+        var cubit = HomeCubit.get(context);
 
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.36,
-            color: AppColors.greyColor,
-            child: Padding(
-              padding:  EdgeInsets.all(12.r),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'New Releases',
-                    style: GoogleFonts.poppins(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.32,
+          color: AppColors.greyColor,
+          child: Padding(
+            padding: EdgeInsets.all(12.r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'New Releases',
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                Expanded(
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) => SizedBox(
+                      width: 8.w,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Expanded(
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, index) =>  SizedBox(
-                        width: 12.w,
-                      ),
-                      itemCount: cubit.newReleaseModel?.results?.length??0,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-
-                                  },
-                                  child: Container(
-                                      alignment: Alignment.topLeft,
-                                      width:
-                                          MediaQuery.of(context).size.width * 0.39,
-                                      height:
-                                          MediaQuery.of(context).size.height * 0.24,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10.r),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            '${Constants.imageBaseUrl}${cubit.newReleaseModel?.results?[index].posterPath}' ?? '',
-                                          ),
-                                          fit: BoxFit.fill,
+                    itemCount: cubit.newReleaseModel?.results?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Stack(
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Container(
+                                    alignment: Alignment.topLeft,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        0.27,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.22,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          '${Constants.imageBaseUrl}${cubit.newReleaseModel?.results?[index].posterPath}',
                                         ),
+                                        fit: BoxFit.fill,
                                       ),
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+
+                                      },
                                       child: Container(
-                                        height: MediaQuery.of(context).size.height * 0.05,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
                                         decoration: const BoxDecoration(
                                           color: Colors.transparent,
                                           image: DecorationImage(
@@ -88,20 +92,21 @@ const Center(child:
                                           Icons.add,
                                           color: Colors.white,
                                         ),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
-      );
+          ),
+        );
+      },
+    );
   }
 }

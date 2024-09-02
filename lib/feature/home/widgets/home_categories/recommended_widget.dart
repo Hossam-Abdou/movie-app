@@ -7,7 +7,6 @@ import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
 import 'package:movie_app/utils/components/custom_rate.dart';
 import 'package:movie_app/utils/components/custom_wish_list_container.dart';
-import 'package:movie_app/utils/constants/constants.dart';
 
 class RecommendedWidget extends StatelessWidget {
   const RecommendedWidget({super.key});
@@ -19,15 +18,15 @@ class RecommendedWidget extends StatelessWidget {
   builder: (context, state) {
     var  cubit = HomeCubit.get(context);
     return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height * 0.46,
       color: AppColors.greyColor ,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding:  EdgeInsets.all(12.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Recomended',
+              'Recommended',
               style: GoogleFonts.poppins(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.bold,
@@ -38,33 +37,29 @@ class RecommendedWidget extends StatelessWidget {
               height: 12.h,
             ),
             Expanded(
-              child: ListView.separated(
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) =>  SizedBox(
-                  width: 12.w,
-                ),
-                itemCount: cubit.topRatedModel?.results?.length??0,
+
+                itemCount: cubit.topRatedModel?.results?.length ?? 0,
                 itemBuilder: (context, index) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       InkWell(
-                         onTap: () {
-
-                         },
-                         child: CustomWishListContainer(
-                          firstImage:'${cubit.topRatedModel?.results?[index].posterPath}' ?? '',
-                          secondImage: AppImages.bookmark,
-                           onTap: (){},
-                                           ),
-                       ),
+                       CustomWishListContainer(
+                        firstImage:'${cubit.topRatedModel?.results?[index].posterPath}',
+                        secondImage: AppImages.bookmark,
+                         onTap: (){},
+                                         ),
                       CustomRate(rate: cubit.topRatedModel?.results?[index].voteAverage.toString() ,) ,
-                      Text(
-                        cubit.topRatedModel?.results?[index].title ?? '',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      SizedBox(
+                        width:MediaQuery.of(context).size.width * 0.36,
+                        child: Text(
+                          cubit.topRatedModel?.results?[index].title ?? '',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       Text(

@@ -46,23 +46,5 @@ class Results {
   double? voteAverage;
   int? voteCount;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['adult'] = adult;
-    map['backdrop_path'] = backdropPath;
-    map['genre_ids'] = genreIds;
-    map['id'] = id;
-    map['original_language'] = originalLanguage;
-    map['original_title'] = originalTitle;
-    map['overview'] = overview;
-    map['popularity'] = popularity;
-    map['poster_path'] = posterPath;
-    map['release_date'] = releaseDate;
-    map['title'] = title;
-    map['video'] = video;
-    map['vote_average'] = voteAverage;
-    map['vote_count'] = voteCount;
-    return map;
-  }
 
 }

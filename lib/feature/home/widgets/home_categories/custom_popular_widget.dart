@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
+import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 
@@ -23,7 +24,9 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
         var cubit = HomeCubit.get(context);
         if (cubit.popularMoviesModel == null) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.yellowColor,
+            ),
           );
         }
         return CarouselSlider(
@@ -92,8 +95,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  '${Constants.imageBaseUrl}${movie.posterPath}' ??
-                                      '',
+                                  '${Constants.imageBaseUrl}${movie.posterPath}',
                                 ),
                               ),
                             ),
@@ -101,7 +103,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                               onTap: () {},
                               child: Container(
                                 height: MediaQuery.sizeOf(context).height * 0.05,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.transparent,
                                   image: DecorationImage(
                                     image: AssetImage(
@@ -109,7 +111,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                                     ),
                                   ),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                    Icons.add,
                                   color: Colors.white,
                                 ),
