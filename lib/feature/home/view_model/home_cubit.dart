@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/feature/home/model/CategoryMovieModel.dart';
 import 'package:movie_app/feature/home/model/GetWatchListModel.dart';
-import 'package:movie_app/feature/home/model/MovieGenresModel.dart';
 import 'package:movie_app/feature/home/model/MoviesDetailsModel.dart';
 import 'package:movie_app/feature/home/model/NewReleaseModel.dart';
 import 'package:movie_app/feature/home/model/PopularMoviesModel.dart';
@@ -25,15 +23,40 @@ class HomeCubit extends Cubit<HomeState> {
   PopularMoviesModel? popularMoviesModel;
   MoviesDetailsModel? moviesDetailsModel;
   SimilarMoviesModel? similarMoviesModel;
-  MoviesGenresModel? moviesGenresModel;
   WatchListModel? watchListModel;
   SearchModel? searchModel;
-  CategoryMovieModel? categoryMovieModel;
 
 bool isWatchList = false;
 
 
+  getPopularMovies() async {
+    emit(PopularLoadingState());
+    Uri uri = Uri.https(
+      EndPoints.baseUrl,
+      EndPoints.popular,
+      {
+        'language': 'en',
+      },
+    );
 
+    try {
+      final response = await http.get(uri, headers: {
+        'Authorization': 'Bearer ${Constants.apiKey}',
+        'Accept': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        popularMoviesModel = PopularMoviesModel.fromJson(
+          jsonDecode(response.body),
+        );
+        emit(PopularSuccessState());
+      } else {
+        emit(PopularErrorState());
+      }
+    } catch (error) {
+      emit(PopularErrorState());
+    }
+  }
   getNewReleasesMovies() async {
     emit(NewReleaseLoadingState());
     Uri uri = Uri.https(
@@ -92,66 +115,6 @@ bool isWatchList = false;
     }
   }
 
-
-  getPopularMovies() async {
-    emit(PopularLoadingState());
-    Uri uri = Uri.https(
-      EndPoints.baseUrl,
-      EndPoints.popular,
-      {
-        'language': 'en',
-      },
-    );
-
-    try {
-      final response = await http.get(uri, headers: {
-        'Authorization': 'Bearer ${Constants.apiKey}',
-        'Accept': 'application/json',
-      });
-
-      if (response.statusCode == 200) {
-        popularMoviesModel = PopularMoviesModel.fromJson(
-          jsonDecode(response.body),
-        );
-        emit(PopularSuccessState());
-      } else {
-        emit(PopularErrorState());
-      }
-    } catch (error) {
-      emit(PopularErrorState());
-    }
-  }
-
-
-  getMovieGenres() async {
-    emit(GetMoviesGenresLoadingState());
-    Uri uri = Uri.https(
-      EndPoints.baseUrl,
-      EndPoints.movieGenres,
-      {
-        'language': 'en',
-      },
-    );
-
-    try {
-      final response = await http.get(uri, headers: {
-        'Authorization': 'Bearer ${Constants.apiKey}',
-        'Accept': 'application/json',
-      });
-
-      if (response.statusCode == 200) {
-        moviesGenresModel = MoviesGenresModel.fromJson(
-          jsonDecode(response.body),
-        );
-        emit(GetMoviesGenresSuccessState());
-      } else {
-        emit(GetMoviesGenresErrorState());
-      }
-    } catch (error) {
-      emit(GetMoviesGenresErrorState());
-      // print(error.toString());
-    }
-  }
 
   searchMovies(String query) async {
     emit(SearchMovieLoadingState());

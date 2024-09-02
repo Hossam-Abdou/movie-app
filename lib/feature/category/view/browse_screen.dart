@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/feature/home/view_model/home_cubit.dart';
+import 'package:movie_app/feature/category/view_model/category_cubit.dart';
 
 class BrowseScreen extends StatelessWidget {
   const BrowseScreen({super.key});
@@ -10,11 +10,11 @@ class BrowseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getMovieGenres(),
-      child: BlocConsumer<HomeCubit, HomeState>(
+      create: (context) => CategoryCubit()..getMovieGenres(),
+      child: BlocConsumer<CategoryCubit, CategoryState>(
         listener: (context, state) {},
         builder: (context, state) {
-          var cubit = HomeCubit.get(context);
+          var cubit = CategoryCubit.get(context);
           return GridView.builder(
             itemCount: cubit.moviesGenresModel?.genres?.length ?? 0,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

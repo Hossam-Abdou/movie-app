@@ -16,9 +16,7 @@ final class PopularLoadingState extends HomeState {}
 final class PopularSuccessState extends HomeState {}
 final class PopularErrorState extends HomeState {}
 
-final class GetMoviesGenresLoadingState extends HomeState {}
-final class GetMoviesGenresSuccessState extends HomeState {}
-final class GetMoviesGenresErrorState extends HomeState {}
+
 
 final class SearchMovieLoadingState extends HomeState {}
 final class SearchMovieSuccessState extends HomeState {}
