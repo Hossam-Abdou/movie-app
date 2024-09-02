@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/feature/category/view/category_movies.dart';
 import 'package:movie_app/feature/category/view_model/category_cubit.dart';
 
 class BrowseScreen extends StatelessWidget {
@@ -23,7 +24,13 @@ class BrowseScreen extends StatelessWidget {
               mainAxisSpacing: 2,
             ),
             itemBuilder: (context, index) => InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  CategoryMovies.routeName,
+                  arguments: cubit.moviesGenresModel?.genres?[index],
+                );
+              },
               child: Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.all(6.r),

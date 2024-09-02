@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/feature/bottom_nav_bar/view/bottom_bar_screen.dart';
 import 'package:movie_app/feature/bottom_nav_bar/view_model/bottom_bar_cubit.dart';
+import 'package:movie_app/feature/category/view/category_movies.dart';
 import 'package:movie_app/feature/home/view/tabs/home_screen.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/feature/splash_screen/splash_screen.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
             HomeScreen.routeName: (context) => const HomeScreen(),
             SplashScreen.routeName: (context) => const SplashScreen(),
             BottomBarScreen.routeName: (context) => const BottomBarScreen(),
+            CategoryMovies.routeName: (context) => const CategoryMovies(),
           },
 
           // home: SplashScreen()

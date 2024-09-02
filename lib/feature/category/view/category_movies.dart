@@ -18,7 +18,13 @@ class CategoryMovies extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => CategoryCubit()..getCategoryMovies(id.id.toString()),
-      child: BlocBuilder<CategoryCubit, CategoryState>(
+      child: BlocConsumer<CategoryCubit, CategoryState>(
+        listener: (context, state) {
+          if (state is CategoryMovieLoadingState) {
+            const Center(
+                child: CircularProgressIndicator());
+          }
+        },
         builder: (context, state) {
           var cubit = CategoryCubit.get(context);
 
@@ -49,7 +55,7 @@ class CategoryMovies extends StatelessWidget {
                         itemBuilder: (context, index) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            InkWell(
+                            GestureDetector(
                               onTap: () {
                                 // Navigator.pushNamed(
                                 //   context,
