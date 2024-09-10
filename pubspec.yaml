@@ -43,6 +43,15 @@ dependencies:
   animated_text_kit: ^4.2.2
   cached_network_image:
   carousel_slider:
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.17.5
+  dio: ^5.6.0
+  dartz: ^0.10.1
+  youtube_player_flutter: ^9.0.3
+
+
+
+
 
 dev_dependencies:
   flutter_test:

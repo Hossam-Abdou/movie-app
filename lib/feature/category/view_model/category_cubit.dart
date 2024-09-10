@@ -7,7 +7,6 @@ import 'package:movie_app/utils/constants/constants.dart';
 import 'package:movie_app/utils/end_points/end_points.dart';
 import 'package:http/http.dart' as http;
 part 'category_state.dart';
-
 class CategoryCubit extends Cubit<CategoryState> {
   CategoryCubit() : super(CategoryInitial());
   static CategoryCubit get(context) => BlocProvider.of(context);
