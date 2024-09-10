@@ -43,6 +43,10 @@ dependencies:
   animated_text_kit: ^4.2.2
   cached_network_image:
   carousel_slider:
+  pod_player:
+  easy_localization:
+  url_launcher:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +73,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/locales/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

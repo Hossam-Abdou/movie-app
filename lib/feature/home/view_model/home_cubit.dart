@@ -1,17 +1,23 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/feature/home/model/MovieTrailerModel.dart';
+import 'package:movie_app/feature/home/model/popular_movies_model.dart';
 import 'package:movie_app/feature/home/model/watch_list_model.dart';
 import 'package:movie_app/feature/home/model/movie_details_model.dart';
 import 'package:movie_app/feature/home/model/new_release_model.dart';
-import 'package:movie_app/feature/home/model/popular_movies_model.dart';
 import 'package:movie_app/feature/home/model/search_model.dart';
 import 'package:movie_app/feature/home/model/similar_movies_model.dart';
 import 'package:movie_app/feature/home/model/top_rated_model.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie_app/utils/end_points/end_points.dart';
+import 'package:movie_app/utils/services/shared_prefrence/cached_keys.dart';
+import 'package:movie_app/utils/services/shared_prefrence/sp_helper.dart';
+import 'package:pod_player/pod_player.dart';
+
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -25,8 +31,40 @@ class HomeCubit extends Cubit<HomeState> {
   SimilarMoviesModel? similarMoviesModel;
   WatchListModel? watchListModel;
   SearchModel? searchModel;
-
-
+  MovieTrailerModel? movieTrailerModel;
+  //
+  // String? currentLanguage;
+  //
+  // void toggleLanguage(context) {
+  //   if (currentLanguage == 'ar') {
+  //     currentLanguage = 'en';
+  //     emit(LanguageChange());
+  //   } else {
+  //     currentLanguage = 'ar';
+  //     emit(LanguageChange());
+  //   }
+  // }
+  //
+  // void changeLang(BuildContext context) {
+  //   if (context.locale.languageCode == 'en') {
+  //     context.setLocale(const Locale('ar'));
+  //     // SharedPrefrenceHelper.saveData(key: CachedKeys.currentThemeMode, value: 'ar');
+  //
+  //     emit(LanguageChange());
+  //
+  //   } else {
+  //     context.setLocale(const Locale('en'));
+  //     currentLanguage = 'en';
+  //     // SharedPrefrenceHelper.saveData(key: CachedKeys.currentThemeMode, value: 'en');
+  //
+  //     emit(LanguageChange());
+  //   }
+  //
+  //   getPopularMovies();
+  //   getRecommendedMovies();
+  //   getNewReleasesMovies();
+  //
+  // }
 
   getPopularMovies() async {
     emit(PopularLoadingState());
@@ -45,17 +83,21 @@ class HomeCubit extends Cubit<HomeState> {
       });
 
       if (response.statusCode == 200) {
-        popularMoviesModel = PopularMoviesModel.fromJson(
-          jsonDecode(response.body),
-        );
+        print('Response: ${response.body}');
+        popularMoviesModel =
+            PopularMoviesModel.fromJson(jsonDecode(response.body));
         emit(PopularSuccessState());
       } else {
+        print('Error: Response status ${response.statusCode}');
         emit(PopularErrorState());
       }
-    } catch (error) {
+    } catch (error, stacktrace) {
+      print('Error: $error');
+      print('Stacktrace: $stacktrace');
       emit(PopularErrorState());
     }
   }
+
   getNewReleasesMovies() async {
     emit(NewReleaseLoadingState());
     Uri uri = Uri.https(
@@ -114,7 +156,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-
   searchMovies(String query) async {
     emit(SearchMovieLoadingState());
     Uri uri = Uri.https(
@@ -123,7 +164,6 @@ class HomeCubit extends Cubit<HomeState> {
       {
         'language': 'en',
         'query': query,
-
       },
     );
 
@@ -148,8 +188,132 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  getMovieTrailer(movieId) async {
+    emit(GetMovieTrailerLoadingState());
+    Uri uri = Uri.https(
+      EndPoints.baseUrl,
+      '${EndPoints.movieDetails}/$movieId/videos',
+      {
+        'language': 'en',
+      },
+    );
+
+    try {
+      final response = await http.get(uri, headers: {
+        'Authorization': 'Bearer ${Constants.apiKey}',
+        'Accept': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        movieTrailerModel = MovieTrailerModel.fromJson(
+          jsonDecode(response.body),
+        );
+        emit(GetMovieTrailerSuccessState());
+      } else {
+        emit(GetMovieTrailerErrorState());
+      }
+    } catch (error) {
+      emit(GetMovieTrailerErrorState());
+      debugPrint(error.toString());
+      // print(error.toString());
+    }
+  }
+
+  PodPlayerController? controller;
+
+  // void initializeVideo(videoKey) {
+  //   controller = PodPlayerController(
+  //     playVideoFrom: PlayVideoFrom.youtube(
+  //       'https://youtu.be/$videoKey',
+  //     ),
+  //     podPlayerConfig: const PodPlayerConfig(
+  //       autoPlay: false,
+  //       isLooping: false,
+  //     ),
+  //   )..initialise();
+  //   emit(gettrailer());
+  // }
+
+  @override
+  Future<void> close() {
+    controller?.dispose();
+    return super.close();
+  }
 
 
+  getWatchList() async {
+    emit(GetMoviesWatchListLoadingState());
+    Uri uri = Uri.https(
+      EndPoints.baseUrl,
+      '${EndPoints.movieWatchList}/${Constants.accountID}/watchlist/movies',
+      {
+        'language': 'en',
+        // 'account_id': Constants.accountID,
 
+      },
+    );
+
+    try {
+      final response = await http.get(uri, headers: {
+        'Authorization': 'Bearer ${Constants.apiKey}',
+        'Accept': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        watchListModel = WatchListModel.fromJson(
+          jsonDecode(response.body),
+        );
+        emit(GetMoviesWatchListSuccessState());
+      } else {
+        emit(GetMoviesWatchListErrorState());
+      }
+    } catch (error) {
+      emit(GetMoviesWatchListErrorState());
+      // print(error.toString());
+    }
+  }
+
+
+  addToWatchList({id, required bool isWatchList}) async {
+    emit(AddMoviesWatchListLoadingState());
+    Uri uri = Uri.https(
+      EndPoints.baseUrl,
+      '${EndPoints.movieWatchList}/${Constants.accountID}/watchlist',
+      {
+        'language': 'en',
+      },
+    );
+
+    try {
+      final response = await http.post(
+        uri,
+        headers: {
+          'Authorization': 'Bearer ${Constants.apiKey}',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json', // Set content type to JSON
+        },
+        body: jsonEncode({
+          'media_type': 'movie',
+          'media_id': id,
+          'watchlist': isWatchList,
+        }),
+      );
+
+      debugPrint('Response status: ${response.statusCode}');
+      debugPrint('Response body: ${response.body}');
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        watchListModel = WatchListModel.fromJson(
+          jsonDecode(response.body),
+        );
+        emit(AddMoviesWatchListSuccessState());
+        getWatchList();
+      } else {
+        emit(AddMoviesWatchListErrorState());
+      }
+    } catch (error) {
+      emit(AddMoviesWatchListErrorState());
+      print('Error: ${error.toString()}');
+    }
+  }
 }
-

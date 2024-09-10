@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
+import 'package:movie_app/utils/app_strings/app_strings.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 
 class NewReleaseWidget extends StatelessWidget {
@@ -32,7 +34,7 @@ class NewReleaseWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'New Releases',
+                  AppStrings.newRelease.tr(),
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -56,7 +58,11 @@ class NewReleaseWidget extends StatelessWidget {
                           Stack(
                             children: [
                               InkWell(
-                                onTap: () {},
+                                onTap: ()
+
+                                {
+
+                                },
                                 child: Container(
                                     alignment: Alignment.topLeft,
                                     width: MediaQuery.sizeOf(context).width *
@@ -74,22 +80,29 @@ class NewReleaseWidget extends StatelessWidget {
                                     ),
                                     child: InkWell(
                                       onTap: () {
-
+                                        cubit.addToWatchList(
+                                          isWatchList:(cubit.watchListModel?.results?.any((e) => e.id == cubit.newReleaseModel
+                                              ?.results?[index].id) ?? false) ? false : true,
+                                          id: cubit.newReleaseModel
+                                              ?.results?[index].id,
+                                        );
                                       },
                                       child: Container(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.05,
-                                        decoration: const BoxDecoration(
+                                        decoration:  BoxDecoration(
                                           color: Colors.transparent,
                                           image: DecorationImage(
                                             image: AssetImage(
-                                              AppImages.bookmark,
+                                              (cubit.watchListModel?.results?.any((e) => e.id == cubit.newReleaseModel
+                                                  ?.results?[index].id) ?? false)?AppImages.wishList:AppImages.bookmark,
                                             ),
                                           ),
                                         ),
-                                        child: const Icon(
-                                          Icons.add,
+                                        child:  Icon(
+                                          (cubit.watchListModel?.results?.any((e) => e.id == cubit.newReleaseModel
+                                              ?.results?[index].id) ?? false)?Icons.check:Icons.add,
                                           color: Colors.white,
                                         ),
                                       ),

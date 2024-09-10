@@ -5,4 +5,8 @@ class AppStrings{
   static String browse = 'Browse';
   static String watchList = 'WatchList';
   static String search = 'Search';
+  static String newRelease = 'newRelease';
+  static String recommended = 'recommended';
+
+  // static String homeTab1 = 'homeTab1';
 }
