@@ -47,7 +47,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          DetailsScreen.id,
+                          DetailsScreen.routeName,
                           arguments: movie.id,
                         );
                       },

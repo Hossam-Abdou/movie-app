@@ -8,7 +8,7 @@ import '../widgets/more_like_this_item.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
-  static const String id = "DetailsScreen";
+  static const String routeName = "DetailsScreen";
 
   @override
   Widget build(BuildContext context) {

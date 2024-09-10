@@ -14,9 +14,7 @@ import 'package:movie_app/feature/home/model/top_rated_model.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie_app/utils/end_points/end_points.dart';
-import 'package:movie_app/utils/services/shared_prefrence/cached_keys.dart';
-import 'package:movie_app/utils/services/shared_prefrence/sp_helper.dart';
-import 'package:pod_player/pod_player.dart';
+
 
 part 'home_state.dart';
 
@@ -219,7 +217,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  PodPlayerController? controller;
+  // PodPlayerController? controller;
 
   // void initializeVideo(videoKey) {
   //   controller = PodPlayerController(
@@ -234,11 +232,11 @@ class HomeCubit extends Cubit<HomeState> {
   //   emit(gettrailer());
   // }
 
-  @override
-  Future<void> close() {
-    controller?.dispose();
-    return super.close();
-  }
+  // @override
+  // Future<void> close() {
+  //   controller?.dispose();
+  //   return super.close();
+  // }
 
 
   getWatchList() async {

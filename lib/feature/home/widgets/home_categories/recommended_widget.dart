@@ -58,7 +58,14 @@ class RecommendedWidget extends StatelessWidget {
                        CustomWishListContainer(
                         firstImage:'${cubit.topRatedModel?.results?[index].posterPath}',
                         secondImage: AppImages.bookmark,
-                         onTap: (){},
+                         onTap: (){
+                           Navigator.pushNamed(
+                             context,
+                             DetailsScreen.routeName,
+                             arguments: movie?.id,
+                           );
+                         },
+
                                          ),
                       CustomRate(rate: cubit.topRatedModel?.results?[index].voteAverage.toString() ,) ,
                       SizedBox(

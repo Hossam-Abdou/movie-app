@@ -56,7 +56,10 @@ class NewReleaseWidget extends StatelessWidget {
                     itemCount: homeCubit.newReleaseModel?.results?.length ?? 0,
                     itemBuilder: (context, index) {
                       final movie = homeCubit.newReleaseModel?.results?[index];
-
+                      final isInWatchlist = homeCubit
+                          .watchListModel?.results
+                          ?.any((e) => e.id == movie?.id) ??
+                          false;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -66,7 +69,7 @@ class NewReleaseWidget extends StatelessWidget {
                                 onTap: () {
                                   Navigator.pushNamed(
                                     context,
-                                    DetailsScreen.id,
+                                    DetailsScreen.routeName,
                                     arguments: movie?.id,
                                   );
                                 },
@@ -98,11 +101,11 @@ class NewReleaseWidget extends StatelessWidget {
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.05,
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
                                           color: Colors.transparent,
                                           image: DecorationImage(
                                             image: AssetImage(
-                                              AppImages.bookmark,
+                                              isInWatchlist? AppImages.wishList:AppImages.bookmark,
                                             ),
                                           ),
                                         ),

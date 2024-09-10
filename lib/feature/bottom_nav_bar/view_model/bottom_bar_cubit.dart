@@ -19,7 +19,7 @@ class BottomBarCubit extends Cubit<BottomBarState> {
 
   List<Widget> layouts = [
     const HomeScreen(),
-     const SearchScreen(),
+      SearchScreen(),
      const BrowseScreen(),
     const WatchListScreen()
   ];
