@@ -14,14 +14,12 @@ import 'package:movie_app/feature/movie_details/presentation/manager/more_like_t
 import 'package:movie_app/feature/movie_details/presentation/pages/details_screen.dart';
 import 'package:movie_app/feature/movie_details/presentation/pages/details_screen.dart';
 import 'package:movie_app/feature/splash_screen/splash_screen.dart';
-import 'package:movie_app/utils/services/shared_prefrence/sp_helper.dart';
 import 'utils/app_colors/app_colors.dart';
 import 'utils/my_bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-  SharedPrefrenceHelper.init();
   // await EasyLocalization.ensureInitialized();
   runApp(
     MyApp(),

@@ -9,8 +9,6 @@ class DetailsScreen extends StatelessWidget {
   static const String routeName = 'details screen';
 
   const DetailsScreen({super.key});
-  static const String routeName = "DetailsScreen";
-
   @override
   Widget build(BuildContext context) {
     int id=ModalRoute.of(context)!.settings.arguments as int;
