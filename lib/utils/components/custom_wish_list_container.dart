@@ -9,6 +9,7 @@ class CustomWishListContainer extends StatelessWidget {
   final double imageWidth;
   final IconData icon;
   final Function()? onTap;
+  final Function()? IconOnTap;
 
   const CustomWishListContainer({super.key,
     this.firstImage,
@@ -16,7 +17,9 @@ class CustomWishListContainer extends StatelessWidget {
     this.imageHeight=0.23,
     this.imageWidth=0.34,
     this.icon=Icons.add,
-    required this.onTap
+    required this.onTap,
+     this.IconOnTap,
+
 
   });
 
@@ -25,9 +28,7 @@ class CustomWishListContainer extends StatelessWidget {
     return Stack(
       children: [
         InkWell(
-          onTap: () {
-
-          },
+          onTap: onTap,
           child: Container(
               alignment: Alignment.topLeft,
               width: MediaQuery.of(context).size.width * imageWidth,

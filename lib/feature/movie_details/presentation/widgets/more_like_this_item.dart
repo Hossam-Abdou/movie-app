@@ -33,7 +33,7 @@ class MoreLikeThisList extends StatelessWidget {
                         GestureDetector(
                           onTap: ()
                           {
-                            Navigator.pushNamed(context,DetailsScreen.id, arguments:state.movies[index].id );
+                            Navigator.pushNamed(context,DetailsScreen.routeName, arguments:state.movies[index].id );
                           },
                         ),
                     separatorBuilder: (context, index) =>

@@ -9,7 +9,7 @@ class DetailsScreen extends StatelessWidget {
   static const String routeName = 'details screen';
 
   const DetailsScreen({super.key});
-  static const String id = "DetailsScreen";
+  static const String routeName = "DetailsScreen";
 
   @override
   Widget build(BuildContext context) {

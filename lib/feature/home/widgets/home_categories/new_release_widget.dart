@@ -7,7 +7,6 @@ import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import '../../../movie_details/presentation/pages/details_screen.dart';
-import '../../../watch_listt/cubit/watch_list_cubit.dart';
 
 class NewReleaseWidget extends StatelessWidget {
   const NewReleaseWidget({super.key});
@@ -29,7 +28,6 @@ class NewReleaseWidget extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-
         return Container(
           height: MediaQuery.of(context).size.height * 0.32,
           color: AppColors.greyColor,
@@ -58,6 +56,10 @@ class NewReleaseWidget extends StatelessWidget {
                     itemCount: homeCubit.newReleaseModel?.results?.length ?? 0,
                     itemBuilder: (context, index) {
                       final movie = homeCubit.newReleaseModel?.results?[index];
+                      final isInWatchlist = homeCubit
+                          .watchListModel?.results
+                          ?.any((e) => e.id == movie?.id) ??
+                          false;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -67,53 +69,53 @@ class NewReleaseWidget extends StatelessWidget {
                                 onTap: () {
                                   Navigator.pushNamed(
                                     context,
-                                    DetailsScreen.id,
+                                    DetailsScreen.routeName,
                                     arguments: movie?.id,
                                   );
                                 },
                                 child: Container(
-                                  alignment: Alignment.topLeft,
-                                  width: MediaQuery.sizeOf(context).width * 0.27,
-                                  height: MediaQuery.sizeOf(context).height * 0.22,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.r),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        '${Constants.imageBaseUrl}${movie?.posterPath}',
-                                      ),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      context.read<WatchListCubit>().addToWatchList({
-                                        'id': movie?.id,
-                                        'title': movie?.title,
-                                        'backdropPath': movie?.backdropPath,
-                                        'posterPath': movie?.posterPath,
-                                        'releaseDate': movie?.releaseDate,
-                                      });
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text('${movie?.title} added to watchlist!'),
+                                    alignment: Alignment.topLeft,
+                                    width: MediaQuery.sizeOf(context).width *
+                                        0.27,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.22,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          '${Constants.imageBaseUrl}${homeCubit.newReleaseModel?.results?[index].posterPath}',
                                         ),
-                                      );
-                                    },
-                                    child: Container(
-                                      height: MediaQuery.of(context).size.height * 0.05,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.transparent,
-                                        image: DecorationImage(
-                                          image: AssetImage(AppImages.bookmark),
-                                        ),
-                                      ),
-                                      child: const Icon(
-                                        Icons.add,
-                                        color: Colors.white,
+                                        fit: BoxFit.fill,
                                       ),
                                     ),
-                                  ),
-                                ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        homeCubit.addToWatchList(
+                                          isWatchList:(homeCubit.watchListModel?.results?.any((e) => e.id == homeCubit.newReleaseModel
+                                              ?.results?[index].id) ?? false) ? false : true,
+                                          id: homeCubit.newReleaseModel
+                                              ?.results?[index].id,
+                                        );
+                                      },
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
+                                        decoration: BoxDecoration(
+                                          color: Colors.transparent,
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              isInWatchlist? AppImages.wishList:AppImages.bookmark,
+                                            ),
+                                          ),
+                                        ),
+                                        child:  Icon(
+                                          (homeCubit.watchListModel?.results?.any((e) => e.id == homeCubit.newReleaseModel
+                                              ?.results?[index].id) ?? false)?Icons.check:Icons.add,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )),
                               ),
                             ],
                           ),

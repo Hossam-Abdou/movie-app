@@ -7,7 +7,6 @@ import 'package:movie_app/utils/constants/constants.dart';
 import 'package:movie_app/utils/end_points/end_points.dart';
 import '../../../../utils/app_colors/app_colors.dart';
 import '../../../../utils/app_images/app_images.dart';
-import '../../../home/view/tabs/home_screen.dart';
 import '../../data/repository/details_reop/details_repo_impl.dart';
 import '../manager/details_cubit/details_cubit.dart';
 import '../manager/details_cubit/details_state.dart';
@@ -212,8 +211,8 @@ class DetailsSection extends StatelessWidget {
                       ),
                       backgroundColor: AppColors.greyColor.withOpacity(0.5),
                       onPressed: () {
-                        Navigator.pushNamed(context, TrailerScreen.routeName,
-                            arguments: id);
+                        // Navigator.pushNamed(context, TrailerScreen.routeName,
+                        //     arguments: id);
                       },
                       child: const Icon(
                         Icons.play_arrow,
@@ -222,12 +221,16 @@ class DetailsSection extends StatelessWidget {
                 )
               ],
             );
-          } else if (state is DetailsFailure) {
-            return Center(
-                child: Text(
-                  'Failed to load movie details',
-                  style: GoogleFonts.poppins(fontSize: 18,color: Colors.yellow),
-                ));
+          }
+          else if (state is DetailsFailure) {
+            return Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Center(
+                  child: Text(
+                    'Failed to load movie details',
+                    style: GoogleFonts.poppins(fontSize: 18,color: Colors.yellow),
+                  )),
+            );
           }
           return SizedBox(
             height: 492.h,
