@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
-import 'package:movie_app/utils/app_strings/app_strings.dart';
 import 'package:movie_app/utils/components/custom_rate.dart';
 import 'package:movie_app/utils/components/custom_wish_list_container.dart';
+import '../../../movie_details/presentation/pages/details_screen.dart';
 
 class RecommendedWidget extends StatelessWidget {
   const RecommendedWidget({super.key});
@@ -19,6 +18,13 @@ class RecommendedWidget extends StatelessWidget {
     return  BlocBuilder<HomeCubit, HomeState>(
   builder: (context, state) {
     var  cubit = HomeCubit.get(context);
+    if (cubit.topRatedModel == null) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: AppColors.yellowColor,
+        ),
+      );
+    }
     return Container(
       height: MediaQuery.of(context).size.height * 0.46,
       color: AppColors.greyColor ,
@@ -28,7 +34,7 @@ class RecommendedWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.recommended.tr(),
+              'Recommended',
               style: GoogleFonts.poppins(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.bold,
@@ -44,6 +50,8 @@ class RecommendedWidget extends StatelessWidget {
 
                 itemCount: cubit.topRatedModel?.results?.length ?? 0,
                 itemBuilder: (context, index) {
+                  final movie = cubit.topRatedModel?.results?[index];
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

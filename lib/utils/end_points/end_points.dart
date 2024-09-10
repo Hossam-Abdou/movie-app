@@ -8,5 +8,6 @@ static const String movieGenres="/3/genre/movie/list";
 static const String movieWatchList="/3/account";
 static const String searchMovie="/3/search/movie";
 static const String discoverMovie="/3/discover/movie";
+static const String video = '/videos';
 
 }

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
-import 'package:movie_app/utils/app_strings/app_strings.dart';
 import 'package:movie_app/utils/constants/constants.dart';
+import '../../../movie_details/presentation/pages/details_screen.dart';
 
 class NewReleaseWidget extends StatelessWidget {
   const NewReleaseWidget({super.key});
@@ -23,8 +22,12 @@ class NewReleaseWidget extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        var cubit = HomeCubit.get(context);
-
+        var homeCubit = HomeCubit.get(context);
+        if (homeCubit.newReleaseModel == null) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return Container(
           height: MediaQuery.of(context).size.height * 0.32,
           color: AppColors.greyColor,
@@ -34,15 +37,15 @@ class NewReleaseWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppStrings.newRelease.tr(),
+                  'New Releases',
                   style: GoogleFonts.poppins(
-                    fontSize: 15,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(
-                  height: 12,
+                SizedBox(
+                  height: 12.h,
                 ),
                 Expanded(
                   child: ListView.separated(
@@ -50,18 +53,22 @@ class NewReleaseWidget extends StatelessWidget {
                     separatorBuilder: (context, index) => SizedBox(
                       width: 8.w,
                     ),
-                    itemCount: cubit.newReleaseModel?.results?.length ?? 0,
+                    itemCount: homeCubit.newReleaseModel?.results?.length ?? 0,
                     itemBuilder: (context, index) {
+                      final movie = homeCubit.newReleaseModel?.results?[index];
+
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Stack(
                             children: [
                               InkWell(
-                                onTap: ()
-
-                                {
-
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    DetailsScreen.id,
+                                    arguments: movie?.id,
+                                  );
                                 },
                                 child: Container(
                                     alignment: Alignment.topLeft,
@@ -73,17 +80,17 @@ class NewReleaseWidget extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10.r),
                                       image: DecorationImage(
                                         image: NetworkImage(
-                                          '${Constants.imageBaseUrl}${cubit.newReleaseModel?.results?[index].posterPath}',
+                                          '${Constants.imageBaseUrl}${homeCubit.newReleaseModel?.results?[index].posterPath}',
                                         ),
                                         fit: BoxFit.fill,
                                       ),
                                     ),
                                     child: InkWell(
                                       onTap: () {
-                                        cubit.addToWatchList(
-                                          isWatchList:(cubit.watchListModel?.results?.any((e) => e.id == cubit.newReleaseModel
+                                        homeCubit.addToWatchList(
+                                          isWatchList:(homeCubit.watchListModel?.results?.any((e) => e.id == homeCubit.newReleaseModel
                                               ?.results?[index].id) ?? false) ? false : true,
-                                          id: cubit.newReleaseModel
+                                          id: homeCubit.newReleaseModel
                                               ?.results?[index].id,
                                         );
                                       },
@@ -91,17 +98,16 @@ class NewReleaseWidget extends StatelessWidget {
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.05,
-                                        decoration:  BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: Colors.transparent,
                                           image: DecorationImage(
                                             image: AssetImage(
-                                              (cubit.watchListModel?.results?.any((e) => e.id == cubit.newReleaseModel
-                                                  ?.results?[index].id) ?? false)?AppImages.wishList:AppImages.bookmark,
+                                              AppImages.bookmark,
                                             ),
                                           ),
                                         ),
                                         child:  Icon(
-                                          (cubit.watchListModel?.results?.any((e) => e.id == cubit.newReleaseModel
+                                          (homeCubit.watchListModel?.results?.any((e) => e.id == homeCubit.newReleaseModel
                                               ?.results?[index].id) ?? false)?Icons.check:Icons.add,
                                           color: Colors.white,
                                         ),
