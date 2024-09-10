@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,15 +9,20 @@ import 'package:movie_app/feature/category/view/category_movies.dart';
 import 'package:movie_app/feature/home/view/tabs/home_screen.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/feature/splash_screen/splash_screen.dart';
+import 'package:movie_app/feature/watch_listt/cubit/watch_list_cubit.dart';
+import 'feature/home/view/tabs/watch_list_screen.dart';
+import 'feature/movie_details/presentation/pages/details_screen.dart';
+import 'firebase_options.dart';
 import 'utils/app_colors/app_colors.dart';
 import 'utils/my_bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-
-  // await EasyLocalization.ensureInitialized();
-  runApp(const MyApp(),);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,36 +32,41 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => BottomBarCubit()),
+        BlocProvider(
+          create: (context) => BottomBarCubit(),
+        ),
         BlocProvider(
           create: (context) => HomeCubit()
             ..getNewReleasesMovies()
             ..getRecommendedMovies()
-          ..getPopularMovies()
-
-          ,
+            ..getPopularMovies(),
+        ),
+        BlocProvider(
+          create: (context) => WatchListCubit(FirebaseFirestore.instance),
         ),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
         minTextAdapt: true,
         splitScreenMode: true,
+
         child: MaterialApp(
           theme: ThemeData(
-              scaffoldBackgroundColor: AppColors.primaryColor,
-              appBarTheme: const AppBarTheme(
-                  backgroundColor: AppColors.greyColor,
-                  iconTheme: IconThemeData(color: Colors.white,),),),
+            scaffoldBackgroundColor: AppColors.primaryColor,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: AppColors.greyColor,
+              iconTheme: IconThemeData(color: Colors.white),
+            ),
+          ),
           debugShowCheckedModeBanner: false,
-          initialRoute: BottomBarScreen.routeName,
+          initialRoute: SplashScreen.routeName,
           routes: {
             HomeScreen.routeName: (context) => const HomeScreen(),
             SplashScreen.routeName: (context) => const SplashScreen(),
             BottomBarScreen.routeName: (context) => const BottomBarScreen(),
             CategoryMovies.routeName: (context) => const CategoryMovies(),
+            DetailsScreen.routeName:(context)=>const DetailsScreen()
           },
-
-          // home: SplashScreen()
         ),
       ),
     );

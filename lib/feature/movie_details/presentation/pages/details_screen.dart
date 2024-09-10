@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../widgets/details_section.dart';
 import '../widgets/more_like_this_item.dart';
 
 class DetailsScreen extends StatelessWidget {
+  static const String routeName = 'details screen';
+
   const DetailsScreen({super.key});
   static const String id = "DetailsScreen";
 
