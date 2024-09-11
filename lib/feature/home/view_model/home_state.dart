@@ -34,3 +34,12 @@ final class GetMoviesWatchListErrorState extends HomeState {}
 final class AddMoviesWatchListLoadingState extends HomeState {}
 final class AddMoviesWatchListSuccessState extends HomeState {}
 final class AddMoviesWatchListErrorState extends HomeState {}
+
+
+final class GetMovieDetailsLoadingState extends HomeState {}
+final class GetMovieDetailsSuccessState extends HomeState {}
+final class GetMovieDetailsErrorState extends HomeState {}
+
+final class GetSimilarMovieLoadingState extends HomeState {}
+final class GetSimilarMovieSuccessState extends HomeState {}
+final class GetSimilarMovieErrorState extends HomeState {}

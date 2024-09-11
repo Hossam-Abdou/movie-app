@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/feature/home/view/movie_details/movie_details_screen.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
@@ -14,10 +15,7 @@ class WatchListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeCubit()..getWatchList(),
-      child: BlocConsumer<HomeCubit, HomeState>(
-        listener: (context, state) {
-
-        },
+      child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           var cubit = HomeCubit.get(context);
           if (state is GetMoviesWatchListLoadingState) {
@@ -80,47 +78,56 @@ class WatchListScreen extends StatelessWidget {
                       cubit.watchListModel?.results?.length ?? 0,
                       itemBuilder: (context, index) => Row(
                         children: [
-                          Container(
-                              alignment: Alignment.topLeft,
-                              width: MediaQuery.of(context).size.width *
-                                  0.33,
-                              height: MediaQuery.of(context).size.height *
-                                  0.195,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    '${Constants.imageBaseUrl}${cubit.watchListModel?.results?[index].posterPath ?? ''}',
+                          InkWell(
+                            onTap: (){
+                              Navigator.pushNamed(
+                                context,
+                                MovieDetailsScreen.routeName,
+                                arguments: cubit.watchListModel?.results?[index].id,
+                              );
+                            },
+                            child: Container(
+                                alignment: Alignment.topLeft,
+                                width: MediaQuery.of(context).size.width *
+                                    0.33,
+                                height: MediaQuery.of(context).size.height *
+                                    0.195,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      '${Constants.imageBaseUrl}${cubit.watchListModel?.results?[index].posterPath ?? ''}',
+                                    ),
+                                    fit: BoxFit.fill,
                                   ),
-                                  fit: BoxFit.fill,
                                 ),
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  // debugPrint(cubit.getWatchListModel
-                                  //     ?.results?[index].id.toString(),);
-                                  cubit.addToWatchList(
-                                    id: cubit.watchListModel
-                                        ?.results?[index].id,
-                                    isWatchList: false,
-                                  );
-                                },
-                                child: Container(
-                                  height: MediaQuery.sizeOf(context).height * 0.05,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.transparent,
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        AppImages.wishList,
+                                child: InkWell(
+                                  onTap: () {
+                                    // debugPrint(cubit.getWatchListModel
+                                    //     ?.results?[index].id.toString(),);
+                                    cubit.addToWatchList(
+                                      id: cubit.watchListModel
+                                          ?.results?[index].id,
+                                      isWatchList: false,
+                                    );
+                                  },
+                                  child: Container(
+                                    height: MediaQuery.sizeOf(context).height * 0.05,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.transparent,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          AppImages.wishList,
+                                        ),
                                       ),
                                     ),
+                                    child: const Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                  child: const Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )),
+                                )),
+                          ),
                           SizedBox(
                             width: 10.w,
                           ),

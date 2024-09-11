@@ -6,7 +6,6 @@ import 'package:movie_app/feature/home/widgets/home_categories/custom_popular_wi
 import 'package:movie_app/feature/home/widgets/home_categories/new_release_widget.dart';
 import 'package:movie_app/feature/home/widgets/home_categories/recommended_widget.dart';
 
-
 class HomeScreen extends StatelessWidget {
   static String routeName = 'home';
 
@@ -15,28 +14,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) =>
-        HomeCubit()
-          ..getWatchList()
-          ..getNewReleasesMovies()
-          ..getRecommendedMovies()
-          ..getPopularMovies() ,
-        child: Scaffold(
+      create: (context) => HomeCubit()
+        ..getWatchList()
+        ..getNewReleasesMovies()
+        ..getRecommendedMovies()
+        ..getPopularMovies(),
+      child: Scaffold(
         body: SafeArea(
-        child: SingleChildScrollView(
-    child: Column(
-    children: [
-    CustomPopularWidget(),
-    NewReleaseWidget(),
-    SizedBox(
-    height: 30.h,
-    ),
-    RecommendedWidget(),
-    ],
-    ),
-    ),
-    ),
-    ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomPopularWidget(),
+                NewReleaseWidget(),
+                SizedBox(
+                  height: 30.h,
+                ),
+                RecommendedWidget(),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

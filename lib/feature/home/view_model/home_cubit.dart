@@ -30,6 +30,7 @@ class HomeCubit extends Cubit<HomeState> {
   WatchListModel? watchListModel;
   SearchModel? searchModel;
   MovieTrailerModel? movieTrailerModel;
+
   //
   // String? currentLanguage;
   //
@@ -312,6 +313,64 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (error) {
       emit(AddMoviesWatchListErrorState());
       print('Error: ${error.toString()}');
+    }
+  }
+  getMovieDetails(id) async {
+    emit(GetMovieDetailsLoadingState());
+    Uri uri = Uri.https(
+      EndPoints.baseUrl,
+      EndPoints.movieDetails + '/$id',
+      {
+        'language': 'en',
+      },
+    );
+
+    try {
+      final response = await http.get(uri, headers: {
+        'Authorization': 'Bearer ${Constants.apiKey}',
+        'Accept': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        moviesDetailsModel = MoviesDetailsModel.fromJson(
+          jsonDecode(response.body),
+        );
+        emit(GetMovieDetailsSuccessState());
+      } else {
+        emit(GetMovieDetailsErrorState());
+      }
+    } catch (error) {
+      emit(GetMovieDetailsErrorState());
+    }
+  }
+
+  getSimilarMovie(id) async {
+    emit(GetSimilarMovieLoadingState());
+    Uri uri = Uri.https(
+      EndPoints.baseUrl,
+      '${EndPoints.movieDetails}/$id/similar',
+      {
+        'language': 'en',
+      },
+    );
+
+    try {
+      final response = await http.get(uri, headers: {
+        'Authorization': 'Bearer ${Constants.apiKey}',
+        'Accept': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        similarMoviesModel = SimilarMoviesModel.fromJson(
+          jsonDecode(response.body),
+        );
+        emit(GetSimilarMovieSuccessState());
+      } else {
+        emit(GetSimilarMovieErrorState());
+      }
+    } catch (error) {
+      emit(GetSimilarMovieErrorState());
+      // print(error.toString());
     }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,13 +5,8 @@ import 'package:movie_app/feature/bottom_nav_bar/view/bottom_bar_screen.dart';
 import 'package:movie_app/feature/bottom_nav_bar/view_model/bottom_bar_cubit.dart';
 import 'package:movie_app/feature/category/view/category_movies.dart';
 import 'package:movie_app/feature/home/view/home_screen.dart';
+import 'package:movie_app/feature/home/view/movie_details/movie_details_screen.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
-import 'package:movie_app/feature/movie_details/data/repository/details_reop/details_repo_impl.dart';
-import 'package:movie_app/feature/movie_details/data/repository/more_like_this_repo/more_like_this_repo_impl.dart';
-import 'package:movie_app/feature/movie_details/presentation/manager/details_cubit/details_cubit.dart';
-import 'package:movie_app/feature/movie_details/presentation/manager/more_like_this_cubit/more_like_this_cubit.dart';
-import 'package:movie_app/feature/movie_details/presentation/pages/details_screen.dart';
-import 'package:movie_app/feature/movie_details/presentation/pages/details_screen.dart';
 import 'package:movie_app/feature/splash_screen/splash_screen.dart';
 import 'package:movie_app/utils/services/shared_prefrence/sp_helper.dart';
 import 'utils/app_colors/app_colors.dart';
@@ -63,7 +57,7 @@ class MyApp extends StatelessWidget {
             SplashScreen.routeName: (context) => const SplashScreen(),
             BottomBarScreen.routeName: (context) => const BottomBarScreen(),
             CategoryMovies.routeName: (context) => const CategoryMovies(),
-            DetailsScreen.routeName: (context) =>  DetailsScreen(),
+            MovieDetailsScreen.routeName: (context) =>  MovieDetailsScreen(),
             // Trailer.routeName: (context) => const Trailer(),
           },
 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/feature/category/view_model/category_cubit.dart';
+import 'package:movie_app/feature/home/view/movie_details/movie_details_screen.dart';
 import 'package:movie_app/utils/components/custom_rate.dart';
 import 'package:movie_app/utils/components/custom_wish_list_container.dart';
 import '../../../../utils/app_images/app_images.dart';
@@ -57,12 +58,12 @@ class CategoryMovies extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                // Navigator.pushNamed(
-                                //   context,
-                                //   MovieDetailsScreen.routeName,
-                                //   arguments: cubit
-                                //       .categoryMovieModel?.results?[index].id,
-                                // );
+                                Navigator.pushNamed(
+                                  context,
+                                  MovieDetailsScreen.routeName,
+                                  arguments: cubit
+                                      .categoryMovieModel?.results?[index].id,
+                                );
                               },
                               child: Center(
                                 child: CustomWishListContainer(
