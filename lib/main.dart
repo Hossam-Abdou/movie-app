@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: BottomBarScreen.routeName,
+          initialRoute: SplashScreen.routeName,
           routes: {
             HomeScreen.routeName: (context) => const HomeScreen(),
             SplashScreen.routeName: (context) => const SplashScreen(),

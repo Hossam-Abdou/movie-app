@@ -30,6 +30,16 @@ class SimilarMovies extends StatelessWidget {
                 width: 12.w,
               ),
               itemBuilder: (context, index) {
+                if (state is GetSimilarMovieSuccessState &&
+                    cubit.similarMoviesModel!.results!.isEmpty) {
+                  return Text(
+                    'NO Similar Movies Found',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 15.sp,
+                    ),
+                  );
+                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -40,7 +50,8 @@ class SimilarMovies extends StatelessWidget {
                             Navigator.pushNamed(
                               context,
                               MovieDetailsScreen.routeName,
-                              arguments: cubit.similarMoviesModel?.results?[index].id,
+                              arguments:
+                                  cubit.similarMoviesModel?.results?[index].id,
                             );
                           },
                           child: Container(
@@ -51,14 +62,22 @@ class SimilarMovies extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.r),
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                    '${Constants.imageBaseUrl}${cubit.similarMoviesModel?.results?[index].posterPath}' ??
-                                        'https://www.freepik.com/free-vector/glitch-error-404-page_4121421.htm',
+                                    (cubit.similarMoviesModel?.results?[index]
+                                                    .posterPath !=
+                                                null &&
+                                            cubit
+                                                .similarMoviesModel!
+                                                .results![index]
+                                                .posterPath!
+                                                .isNotEmpty)
+                                        ? '${Constants.imageBaseUrl}${cubit.similarMoviesModel?.results?[index].posterPath}'
+                                        : 'https://img.freepik.com/premium-vector/modern-design-concept-no-image-found-design_637684-247.jpg',
                                   ),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                               child: Container(
-                                height: 40,
+                                height: MediaQuery.sizeOf(context).height * 0.05,
                                 decoration: const BoxDecoration(
                                   color: Colors.transparent,
                                   image: DecorationImage(

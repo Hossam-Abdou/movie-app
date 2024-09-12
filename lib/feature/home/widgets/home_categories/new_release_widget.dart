@@ -13,14 +13,8 @@ class NewReleaseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeState>(
-      listener: (context, state) {
-        if (state is NewReleaseLoadingState) {
-          const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+    return BlocBuilder<HomeCubit, HomeState>(
+
       builder: (context, state) {
         var homeCubit = HomeCubit.get(context);
         if (homeCubit.newReleaseModel == null) {
@@ -76,7 +70,7 @@ class NewReleaseWidget extends StatelessWidget {
                                 child: Container(
                                     alignment: Alignment.topLeft,
                                     width: MediaQuery.sizeOf(context).width *
-                                        0.27,
+                                        0.28,
                                     height: MediaQuery.sizeOf(context).height *
                                         0.22,
                                     decoration: BoxDecoration(

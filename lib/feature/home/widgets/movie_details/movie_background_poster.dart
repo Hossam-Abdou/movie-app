@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/constants/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import 'video.dart';
 
 class MovieBackgroundPoster extends StatelessWidget {
   const MovieBackgroundPoster({super.key});
@@ -17,6 +17,9 @@ class MovieBackgroundPoster extends StatelessWidget {
         return InkWell(
           onTap: () {
             // Navigator.push(context, MaterialPageRoute(builder: (context) =>Video() ,));
+            print(cubit.movieTrailerModel?.results?[0].key);
+            Uri uri = Uri.parse('https://www.youtube.com/watch?v=${cubit.movieTrailerModel?.results?[0].key}');
+            launchUrl(uri);
           },
 
           child: Container(
@@ -27,10 +30,12 @@ class MovieBackgroundPoster extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                  '${Constants.imageBaseUrl}${cubit.moviesDetailsModel
-                      ?.backdropPath}' ??
-                      '',
+                  (cubit.moviesDetailsModel?.backdropPath != null &&
+                      cubit.moviesDetailsModel!.backdropPath!.isNotEmpty)
+                      ? '${Constants.imageBaseUrl}${cubit.moviesDetailsModel?.backdropPath}'
+                      : 'https://img.freepik.com/premium-vector/modern-design-concept-no-image-found-design_637684-247.jpg',
                 ),
+
               ),
             ),
             child: const Align(

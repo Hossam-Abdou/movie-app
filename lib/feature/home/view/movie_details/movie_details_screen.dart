@@ -19,7 +19,7 @@ class MovieDetailsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeCubit()
         ..getMovieDetails(id)
-        ..getSimilarMovie(id),
+        ..getSimilarMovie(id)..getMovieTrailer(id),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           var cubit = HomeCubit.get(context);

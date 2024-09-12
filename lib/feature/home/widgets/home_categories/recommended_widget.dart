@@ -51,13 +51,25 @@ class RecommendedWidget extends StatelessWidget {
                 itemCount: cubit.topRatedModel?.results?.length ?? 0,
                 itemBuilder: (context, index) {
                   final movie = cubit.topRatedModel?.results?[index];
-
+                  final isInWatchlist = cubit
+                      .watchListModel?.results
+                      ?.any((e) => e.id == movie?.id) ??
+                      false;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                        CustomWishListContainer(
+                         icon: isInWatchlist?Icons.check:Icons.add,
                         firstImage:'${cubit.topRatedModel?.results?[index].posterPath}',
-                        secondImage: AppImages.bookmark,
+                        secondImage: isInWatchlist?AppImages.wishList:AppImages.bookmark,
+                         IconOnTap: (){
+                           cubit.addToWatchList(
+                             isWatchList:(cubit.watchListModel?.results?.any((e) => e.id == cubit.topRatedModel
+                                 ?.results?[index].id) ?? false) ? false : true,
+                             id: cubit.topRatedModel
+                                 ?.results?[index].id,
+                           );
+                         },
                          onTap: (){
                            Navigator.pushNamed(
                              context,

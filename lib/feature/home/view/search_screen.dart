@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/feature/home/view/movie_details/movie_details_screen.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
@@ -31,11 +32,10 @@ class SearchScreen extends StatelessWidget {
                       cursorColor: Colors.white.withOpacity(0.67),
                       onChanged: (query) {
                         cubit.searchMovies(query);
-                       if( query =='')
-                       {
-                         // if the search field is empty show the empty image
-                         cubit.searchModel?.results?.isEmpty ?? true;
-                       }
+                        if (query == '') {
+                          // if the search field is empty show the empty image
+                          cubit.searchModel?.results?.isEmpty ?? true;
+                        }
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -75,11 +75,13 @@ class SearchScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16.h,),
+                    SizedBox(
+                      height: 16.h,
+                    ),
                     if (state is SearchMovieLoadingState)
-                       Padding(
+                      Padding(
                         padding: EdgeInsets.all(20.r),
-                        child:const Center(
+                        child: const Center(
                           child: CircularProgressIndicator(
                             color: AppColors.yellowColor,
                           ),
@@ -125,7 +127,12 @@ class SearchScreen extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-
+                                Navigator.pushNamed(
+                                  context,
+                                  MovieDetailsScreen.routeName,
+                                  arguments:
+                                      cubit.searchModel?.results?[index].id,
+                                );
                               },
                               child: Container(
                                 alignment: Alignment.topLeft,
@@ -136,7 +143,13 @@ class SearchScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10.r),
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      '${Constants.imageBaseUrl}${cubit.searchModel?.results?[index].posterPath ?? ''}',
+                                      (cubit.searchModel?.results?[index]
+                                                      .posterPath !=
+                                                  null &&
+                                              cubit.searchModel!.results![index]
+                                                  .posterPath!.isNotEmpty)
+                                          ? '${Constants.imageBaseUrl}${cubit.searchModel?.results?[index].posterPath}'
+                                          : 'https://img.freepik.com/premium-vector/modern-design-concept-no-image-found-design_637684-247.jpg',
                                     ),
                                     fit: BoxFit.fill,
                                   ),
@@ -144,7 +157,7 @@ class SearchScreen extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {},
                                   child: Container(
-                                    height: 40.h,
+                                    height: MediaQuery.sizeOf(context).height * 0.05,
                                     decoration: const BoxDecoration(
                                       color: Colors.transparent,
                                       image: DecorationImage(

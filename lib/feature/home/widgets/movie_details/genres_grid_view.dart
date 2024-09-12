@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/feature/category/view/category_movies.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
@@ -23,20 +24,29 @@ class GenresGridView extends StatelessWidget {
                 runSpacing: 10.h,
                 children: List.generate(
                   cubit.moviesDetailsModel?.genres?.length ?? 0,
-                      (genreIndex) => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.r),
-                      border: Border.all(
-                        color: AppColors.searchFieldColor,
-                        width: 1,
+                  (genreIndex) => InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, CategoryMovies.routeName,
+                          arguments: cubit
+                              .moviesDetailsModel?.genres?[genreIndex]);
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4.r),
+                        border: Border.all(
+                          color: AppColors.searchFieldColor,
+                          width: 1,
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      cubit.moviesDetailsModel?.genres?[genreIndex].name ?? '',
-                      style: GoogleFonts.aBeeZee(
-                        color: Colors.white,
-                        fontSize: 10.sp,
+                      child: Text(
+                        cubit.moviesDetailsModel?.genres?[genreIndex].name ??
+                            '',
+                        style: GoogleFonts.aBeeZee(
+                          color: Colors.white,
+                          fontSize: 10.sp,
+                        ),
                       ),
                     ),
                   ),
@@ -53,7 +63,7 @@ class GenresGridView extends StatelessWidget {
               SizedBox(height: 10.h), // Added some spacing
               Row(
                 children: [
-                   const ImageIcon(
+                  const ImageIcon(
                     AssetImage(AppImages.star),
                     color: AppColors.yellowColor,
                   ),

@@ -41,6 +41,10 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
           items: cubit.popularMoviesModel?.results?.map((movie) {
             return Builder(
               builder: (BuildContext context) {
+                final isInWatchlist = cubit
+                    .watchListModel?.results
+                    ?.any((e) => e.id == movie?.id) ??
+                    false;
                 return Stack(
                   children: [
                     InkWell(
@@ -105,6 +109,10 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                             ),
                             child: InkWell(
                               onTap: () {
+                                cubit.addToWatchList(
+                                  isWatchList:(cubit.watchListModel?.results?.any((e) => e.id == movie.id) ?? false) ? false : true,
+                                  id: movie.id,
+                                );
                                 // context.read<WatchListCubit>().addToWatchList({
                                 //   'id': movie.id,
                                 //   'title': movie.title,
@@ -121,16 +129,16 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                               },
                               child: Container(
                                 height: MediaQuery.sizeOf(context).height * 0.05,
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                   color: Colors.transparent,
                                   image: DecorationImage(
                                     image: AssetImage(
-                                    AppImages.bookmark,
+                                      isInWatchlist? AppImages.wishList:AppImages.bookmark,
                                     ),
                                   ),
                                 ),
-                                child: const Icon(
-                                   Icons.add,
+                                child:  Icon(
+                                  isInWatchlist?Icons.check:Icons.add,
                                   color: Colors.white,
                                 ),
                               ),
