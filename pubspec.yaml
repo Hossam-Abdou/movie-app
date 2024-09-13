@@ -48,6 +48,7 @@ dependencies:
   easy_localization:
   url_launcher: ^6.3.0
   shared_preferences:
+  skeletonizer:
 dev_dependencies:
   flutter_test:
     sdk: flutter

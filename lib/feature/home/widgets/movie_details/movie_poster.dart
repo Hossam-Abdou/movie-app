@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/feature/home/view_model/home_cubit.dart';
+import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 
 class MoviePoster extends StatelessWidget {
@@ -12,7 +14,23 @@ class MoviePoster extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
-        return Container(
+        return CachedNetworkImage(imageUrl:  '${Constants.imageBaseUrl}${cubit.moviesDetailsModel?.posterPath}',
+
+          placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.yellowColor,),),
+        errorWidget: (context, url, error) => Container(
+          width: MediaQuery.of(context).size.width * 0.34,
+          height: MediaQuery.of(context).size.height * 0.24,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.r),
+            image:const  DecorationImage(
+              image: NetworkImage(
+                'https://img.freepik.com/premium-vector/modern-design-concept-no-image-found-design_637684-247.jpg',
+              ),
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+        imageBuilder: (context, imageProvider) => Container(
           alignment: Alignment.topLeft,
           width: MediaQuery.of(context).size.width * 0.34,
           height: MediaQuery.of(context).size.height * 0.24,
@@ -20,10 +38,7 @@ class MoviePoster extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
             image: DecorationImage(
               image: NetworkImage(
-                (cubit.moviesDetailsModel?.posterPath != null &&
-                        cubit.moviesDetailsModel!.posterPath!.isNotEmpty)
-                    ? '${Constants.imageBaseUrl}${cubit.moviesDetailsModel?.posterPath}'
-                    : 'https://img.freepik.com/premium-vector/modern-design-concept-no-image-found-design_637684-247.jpg',
+                  '${Constants.imageBaseUrl}${cubit.moviesDetailsModel?.posterPath}'
               ),
               fit: BoxFit.fill,
             ),
@@ -41,6 +56,7 @@ class MoviePoster extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+        ),
         );
       },
     );

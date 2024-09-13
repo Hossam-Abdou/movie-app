@@ -9,42 +9,130 @@ import 'package:movie_app/feature/home/view_model/home_cubit.dart';
 import 'package:movie_app/utils/app_colors/app_colors.dart';
 import 'package:movie_app/utils/app_images/app_images.dart';
 import 'package:movie_app/utils/constants/constants.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CustomPopularWidget extends StatefulWidget {
+class CustomPopularWidget extends StatelessWidget {
   const CustomPopularWidget({super.key});
 
-  @override
-  State<CustomPopularWidget> createState() => _CustomPopularWidgetState();
-}
-
-class _CustomPopularWidgetState extends State<CustomPopularWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
-        if (cubit.popularMoviesModel == null) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.yellowColor,
+
+        // Show skeleton loader while data is loading
+        if (state is PopularLoadingState) {
+          return Skeletonizer(
+            enabled: true,
+            child: CarouselSlider(
+              options: CarouselOptions(
+                height: MediaQuery.of(context).size.height * 0.45,
+                autoPlay: false,
+                viewportFraction: 1,
+              ),
+              items: List.generate(
+                10, // Number of skeleton loaders to display
+                    (index) => Builder(
+                  builder: (BuildContext context) {
+                    return Stack(
+                      children: [
+                        Container(
+
+                          color: Colors.grey[300],
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.3,
+                        ),
+                        Positioned(
+                          top: MediaQuery.of(context).size.height * 0.22,
+                          left: MediaQuery.of(context).size.width * 0.07,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.26,
+                                height: MediaQuery.of(context).size.height * 0.21,
+                                alignment: Alignment.topRight,
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.25),
+                                      spreadRadius: 3,
+                                      blurRadius: 2,
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(15.r),
+
+                                ),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height * 0.05,
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.transparent,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        AppImages.bookmark,
+                                      ),
+                                    ),
+                                  ),
+
+                                ),
+                              ),
+                              SizedBox(width: 8.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ' ',
+                                    style: GoogleFonts.inter(
+                                      color: Colors.grey,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  SizedBox(height: 40.h),
+                                  Text(
+                                    '',
+                                    style: GoogleFonts.inter(
+                                      color: Colors.grey,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    height: MediaQuery.of(context).size.height * 0.038,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.yellowColor,
+                                      borderRadius: BorderRadius.circular(5.r),
+                                    ),
+
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+              ),
             ),
           );
         }
+
+        // Display actual content when data is loaded
         return CarouselSlider(
           options: CarouselOptions(
-            height: MediaQuery.sizeOf(context).height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.45,
             autoPlay: true,
-            enlargeCenterPage: true,
-            viewportFraction: 1
+            viewportFraction: 1,
           ),
           items: cubit.popularMoviesModel?.results?.map((movie) {
             return Builder(
               builder: (BuildContext context) {
-                final isInWatchlist = cubit
-                    .watchListModel?.results
-                    ?.any((e) => e.id == movie.id) ??
-                    false;
                 return Stack(
                   children: [
                     InkWell(
@@ -57,39 +145,25 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                       },
                       child: AnimatedContainer(
                         duration: const Duration(seconds: 1),
-                        height: MediaQuery.sizeOf(context).height * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.3,
                         width: double.infinity,
-                        // Set width to full
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage(
-                              '${Constants.imageBaseUrl}${movie.backdropPath}'
-                            ),
+                                '${Constants.imageBaseUrl}${movie.backdropPath}'),
                             fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: CircleAvatar(
-                            radius: 25.r,
-                            backgroundColor: Colors.black54,
-                            child: Icon(
-                              Icons.play_arrow,
-                              size: 20.sp,
-                              color: Colors.white,
-                            ),
                           ),
                         ),
                       ),
                     ),
                     Positioned(
-                      top: MediaQuery.sizeOf(context).height * 0.22,
-                      left: MediaQuery.sizeOf(context).width * 0.07,
+                      top: MediaQuery.of(context).size.height * 0.22,
+                      left: MediaQuery.of(context).size.width * 0.07,
                       child: Row(
                         children: [
                           Container(
-                            width: MediaQuery.sizeOf(context).width * 0.26,
-                            height: MediaQuery.sizeOf(context).height * 0.21,
+                            width: MediaQuery.of(context).size.width * 0.26,
+                            height: MediaQuery.of(context).size.height * 0.21,
                             alignment: Alignment.topRight,
                             decoration: BoxDecoration(
                               boxShadow: [
@@ -108,42 +182,23 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                               ),
                             ),
                             child: InkWell(
-                              onTap: () {
-                                cubit.addToWatchList(
-                                  isWatchList:(cubit.watchListModel?.results?.any((e) => e.id == movie.id) ?? false) ? false : true,
-                                  id: movie.id,
-                                );
-                                // context.read<WatchListCubit>().addToWatchList({
-                                //   'id': movie.id,
-                                //   'title': movie.title,
-                                //   'backdropPath': movie.backdropPath,
-                                //   'posterPath': movie.posterPath,
-                                //   'releaseDate': movie.releaseDate,
-                                // });
-                                //
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //   SnackBar(
-                                //     content: Text('${movie.title} added to watchlist!'),
-                                //   ),
-                                // );
-                              },
+                              onTap: () {},
                               child: Container(
-                                height: MediaQuery.sizeOf(context).height * 0.05,
-                                decoration:  BoxDecoration(
+                                height: MediaQuery.of(context).size.height * 0.05,
+                                decoration: const BoxDecoration(
                                   color: Colors.transparent,
                                   image: DecorationImage(
                                     image: AssetImage(
-                                      isInWatchlist? AppImages.wishList:AppImages.bookmark,
+                                      AppImages.bookmark,
                                     ),
                                   ),
                                 ),
-                                child:  Icon(
-                                  isInWatchlist?Icons.check:Icons.add,
+                                child: const Icon(
+                                  Icons.add,
                                   color: Colors.white,
                                 ),
                               ),
                             ),
-
                           ),
                           SizedBox(width: 8.w),
                           Column(
@@ -151,7 +206,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                             children: [
                               SizedBox(height: 40.h),
                               SizedBox(
-                                width: MediaQuery.sizeOf(context).width * 0.5,
+                                width: MediaQuery.of(context).size.width * 0.5,
                                 child: DefaultTextStyle(
                                   style: GoogleFonts.inter(
                                     color: Colors.white,
@@ -159,9 +214,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                                     fontWeight: FontWeight.w400,
                                   ),
                                   child: AnimatedTextKit(
-                                    isRepeatingAnimation: true,
                                     repeatForever: true,
-                                    // pause: const Duration(seconds: 2),
                                     animatedTexts: [
                                       TyperAnimatedText(movie.title ?? ''),
                                     ],
@@ -176,62 +229,45 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                  ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    await cubit.getMovieTrailer(movie.id
-                                        .toString()); // Ensure this finishes first
-                                    if (cubit.movieTrailerModel?.results
-                                        ?.isNotEmpty ??
-                                        false) {
-                                      final trailerKey = cubit
-                                          .movieTrailerModel?.results?[0].key;
-                                      if (trailerKey != null) {
-                                        Uri uri = Uri.parse(
-                                            'https://youtu.be/$trailerKey');
-                                        if (await canLaunchUrl(uri)) {
-                                          await launchUrl(uri);
-                                        } else {
-                                          // Handle error if the URL cannot be launched
-                                          debugPrint('Could not launch $uri');
-                                        }
+                              ),
+                              SizedBox(height: 5.h),
+                              InkWell(
+                                onTap: () async {
+                                  await cubit.getMovieTrailer(movie.id.toString());
+                                  if (cubit.movieTrailerModel?.results?.isNotEmpty ?? false) {
+                                    final trailerKey = cubit.movieTrailerModel?.results?[0].key;
+                                    if (trailerKey != null) {
+                                      Uri uri = Uri.parse('https://youtu.be/$trailerKey');
+                                      if (await canLaunchUrl(uri)) {
+                                        await launchUrl(uri);
                                       } else {
-                                        debugPrint('Trailer key is null');
+                                        debugPrint('Could not launch $uri');
                                       }
                                     } else {
-                                      debugPrint(
-                                          'No trailer available for this movie');
+                                      debugPrint('Trailer key is null');
                                     }
-                                  },
-                                  child: Container(
-                                    width: MediaQuery
-                                        .sizeOf(context)
-                                        .width *
-                                        0.3,
-                                    height:
-                                    MediaQuery
-                                        .sizeOf(context)
-                                        .height *
-                                        0.038,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.yellowColor,
-                                      borderRadius:
-                                      BorderRadius.circular(5.r),
-                                    ),
-                                    child: Text(
-                                      'Watch Now',
-                                      style: GoogleFonts.inter(
-                                        color: Colors.white,
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                  } else {
+                                    debugPrint('No trailer available for this movie');
+                                  }
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  height: MediaQuery.of(context).size.height * 0.038,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.yellowColor,
+                                    borderRadius: BorderRadius.circular(5.r),
+                                  ),
+                                  child: Text(
+                                    'Watch Now',
+                                    style: GoogleFonts.inter(
+                                      color: Colors.white,
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
+                              ),
                             ],
                           ),
                         ],
@@ -241,7 +277,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
                 );
               },
             );
-          }).toList(),
+          }).toList()??[],
         );
       },
     );

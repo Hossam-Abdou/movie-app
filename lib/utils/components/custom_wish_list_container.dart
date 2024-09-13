@@ -45,7 +45,7 @@ class CustomWishListContainer extends StatelessWidget {
               child: InkWell(
                 onTap: IconOnTap,
                 child: Container(
-                  height: MediaQuery.sizeOf(context).height*0.05,
+                  height: MediaQuery.sizeOf(context).height*0.04,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     image: DecorationImage(

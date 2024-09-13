@@ -23,11 +23,7 @@ class MovieDetailsScreen extends StatelessWidget {
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           var cubit = HomeCubit.get(context);
-          if (state is GetSimilarMovieLoadingState || state is GetMovieDetailsLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(color:Colors.yellow,),
-            );
-          }
+
 
           return Scaffold(
             appBar: AppBar(

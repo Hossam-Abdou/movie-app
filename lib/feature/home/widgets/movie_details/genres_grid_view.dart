@@ -16,7 +16,7 @@ class GenresGridView extends StatelessWidget {
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
         return Expanded(
-          child: Column(
+          child:  cubit.moviesDetailsModel?.genres?.isEmpty ?? true ? const SizedBox() : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Wrap(

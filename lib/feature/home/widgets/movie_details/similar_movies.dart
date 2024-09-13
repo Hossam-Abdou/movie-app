@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,7 +55,28 @@ class SimilarMovies extends StatelessWidget {
                                   cubit.similarMoviesModel?.results?[index].id,
                             );
                           },
-                          child: Container(
+                          child: CachedNetworkImage(
+                            placeholder: (context, text) => const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.yellowColor,
+                                )),
+                            errorWidget: (context, url, error) => Container(
+                              width: MediaQuery.of(context).size.width * 0.42,
+                              height: MediaQuery.of(context).size.height * 0.25,
+
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    'https://img.freepik.com/premium-vector/modern-design-concept-no-image-found-design_637684-247.jpg',
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            imageUrl:
+                                '${Constants.imageBaseUrl}${cubit.similarMoviesModel?.results?[index].posterPath}',
+                            imageBuilder: (context, imageProvider) => Container(
                               alignment: Alignment.topLeft,
                               width: MediaQuery.of(context).size.width * 0.42,
                               height: MediaQuery.of(context).size.height * 0.25,
@@ -62,22 +84,13 @@ class SimilarMovies extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.r),
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                    (cubit.similarMoviesModel?.results?[index]
-                                                    .posterPath !=
-                                                null &&
-                                            cubit
-                                                .similarMoviesModel!
-                                                .results![index]
-                                                .posterPath!
-                                                .isNotEmpty)
-                                        ? '${Constants.imageBaseUrl}${cubit.similarMoviesModel?.results?[index].posterPath}'
-                                        : 'https://img.freepik.com/premium-vector/modern-design-concept-no-image-found-design_637684-247.jpg',
-                                  ),
+                                      '${Constants.imageBaseUrl}${cubit.similarMoviesModel?.results?[index].posterPath}'),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                               child: Container(
-                                height: MediaQuery.sizeOf(context).height * 0.05,
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.05,
                                 decoration: const BoxDecoration(
                                   color: Colors.transparent,
                                   image: DecorationImage(
@@ -90,7 +103,9 @@ class SimilarMovies extends StatelessWidget {
                                   Icons.add,
                                   color: Colors.white,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

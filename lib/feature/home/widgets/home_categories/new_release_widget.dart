@@ -94,9 +94,7 @@ class NewReleaseWidget extends StatelessWidget {
                                         );
                                       },
                                       child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.05,
+                                        height: MediaQuery.of(context).size.height * 0.05,
                                         decoration: BoxDecoration(
                                           color: Colors.transparent,
                                           image: DecorationImage(
