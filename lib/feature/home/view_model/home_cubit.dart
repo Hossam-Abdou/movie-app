@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/feature/home/model/MovieTrailerModel.dart';
@@ -14,8 +13,6 @@ import 'package:movie_app/feature/home/model/top_rated_model.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie_app/utils/end_points/end_points.dart';
-
-
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -82,17 +79,17 @@ class HomeCubit extends Cubit<HomeState> {
       });
 
       if (response.statusCode == 200) {
-        print('Response: ${response.body}');
+        debugPrint('Response: ${response.body}');
         popularMoviesModel =
             PopularMoviesModel.fromJson(jsonDecode(response.body));
         emit(PopularSuccessState());
       } else {
-        print('Error: Response status ${response.statusCode}');
+        debugPrint('Error: Response status ${response.statusCode}');
         emit(PopularErrorState());
       }
     } catch (error, stacktrace) {
-      print('Error: $error');
-      print('Stacktrace: $stacktrace');
+      debugPrint('Error: $error');
+      debugPrint('Stacktrace: $stacktrace');
       emit(PopularErrorState());
     }
   }
@@ -312,14 +309,14 @@ class HomeCubit extends Cubit<HomeState> {
       }
     } catch (error) {
       emit(AddMoviesWatchListErrorState());
-      print('Error: ${error.toString()}');
+      debugPrint('Error: ${error.toString()}');
     }
   }
   getMovieDetails(id) async {
     emit(GetMovieDetailsLoadingState());
     Uri uri = Uri.https(
       EndPoints.baseUrl,
-      EndPoints.movieDetails + '/$id',
+      '${EndPoints.movieDetails}/$id',
       {
         'language': 'en',
       },

@@ -19,7 +19,9 @@ class NewReleaseWidget extends StatelessWidget {
         var homeCubit = HomeCubit.get(context);
         if (homeCubit.newReleaseModel == null) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.yellowColor,
+            ),
           );
         }
         return Container(

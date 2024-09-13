@@ -17,7 +17,7 @@ class MovieBackgroundPoster extends StatelessWidget {
         return InkWell(
           onTap: () {
             // Navigator.push(context, MaterialPageRoute(builder: (context) =>Video() ,));
-            print(cubit.movieTrailerModel?.results?[0].key);
+            // print(cubit.movieTrailerModel?.results?[0].key);
             Uri uri = Uri.parse('https://www.youtube.com/watch?v=${cubit.movieTrailerModel?.results?[0].key}');
             launchUrl(uri);
           },

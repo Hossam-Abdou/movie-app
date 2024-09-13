@@ -14,9 +14,8 @@ import 'utils/my_bloc_observer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-  // await EasyLocalization.ensureInitialized();
   runApp(
-    MyApp(),
+    const MyApp(),
   );
 }
 
@@ -36,9 +35,6 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp(
-          // localizationsDelegates: context.localizationDelegates,
-          // supportedLocales: context.supportedLocales,
-          // locale: context.locale,
           theme: ThemeData(
             scaffoldBackgroundColor: AppColors.primaryColor,
             appBarTheme: const AppBarTheme(
@@ -55,7 +51,7 @@ class MyApp extends StatelessWidget {
             SplashScreen.routeName: (context) => const SplashScreen(),
             BottomBarScreen.routeName: (context) => const BottomBarScreen(),
             CategoryMovies.routeName: (context) => const CategoryMovies(),
-            MovieDetailsScreen.routeName: (context) =>  MovieDetailsScreen(),
+            MovieDetailsScreen.routeName: (context) =>  const MovieDetailsScreen(),
             // Trailer.routeName: (context) => const Trailer(),
           },
 

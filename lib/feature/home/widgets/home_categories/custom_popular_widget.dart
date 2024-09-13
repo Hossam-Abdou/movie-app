@@ -43,7 +43,7 @@ class _CustomPopularWidgetState extends State<CustomPopularWidget> {
               builder: (BuildContext context) {
                 final isInWatchlist = cubit
                     .watchListModel?.results
-                    ?.any((e) => e.id == movie?.id) ??
+                    ?.any((e) => e.id == movie.id) ??
                     false;
                 return Stack(
                   children: [
